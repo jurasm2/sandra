@@ -176,5 +176,25 @@ class EventManager extends BaseService
         return $this->eventModel->getReportsInInterval($fromDate, $toDate);
     }
 
+
+    public function getTrashedEvents()
+    {
+        return $this->eventModel->getTrashedEvents();
+    }
+
+    public function restoreEvent($eventId)
+    {
+        /* @var $event \Nette\Database\Table\ActiveRow */
+        $event = $this->eventModel->getEvent($eventId);
+        $event->update(['trashed' => 0]);
+    }
+
+    public function deleteEvent($eventId)
+    {
+        /* @var $event \Nette\Database\Table\ActiveRow */
+        $event = $this->eventModel->getEvent($eventId);
+        $event->delete();
+    }
+
 }
 

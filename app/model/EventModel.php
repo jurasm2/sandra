@@ -33,6 +33,11 @@ class EventModel extends Nette\Object
         return $this->database->table('events')->insert($data);
     }
 
+    public function getEvent($eventId)
+    {
+        return $this->database->table('events')->select('*')->where('id = ?', $eventId)->fetch();
+    }
+
     public function createReport(array $data)
     {
         return $this->database->table('reports')->insert($data);
@@ -50,12 +55,22 @@ class EventModel extends Nette\Object
 
     public function getReportsInInterval(DateTime $from, DateTime $to)
     {
-        return $this->database
-            ->table('reports')
-            ->select('*')
-            ->where('DATE(date_of_payment) >= ? AND DATE(date_of_payment) <= ?', [$from, $to])
-            ->order('date_of_payment', 'asc')
-            ->fetchPairs('event_id');
+        return $this->database->query(
+            'SELECT r.*, e.id as eid, e.trashed, e.title '
+            . 'FROM reports r '
+            . 'JOIN events e '
+            . 'ON r.event_id = e.id '
+            . 'WHERE DATE(date_of_payment) >= ? AND DATE(date_of_payment) <= ? AND trashed = 0 '
+            . 'ORDER BY date_of_payment ASC',
+            $from, $to)->fetchPairs('event_id');
+
+
+//        return $this->database
+//            ->table('reports')
+//            ->select('*')
+//            ->where('DATE(date_of_payment) >= ? AND DATE(date_of_payment) <= ?', [$from, $to])
+//            ->order('date_of_payment', 'asc')
+//            ->fetchPairs('event_id');
     }
 
     public function getReport($reportId)
@@ -86,6 +101,11 @@ class EventModel extends Nette\Object
         $eventData = $report->ref('event_id')->toArray();
         unset($eventData['id']);
         return $reportData + $eventData;
+    }
+
+    public function getTrashedEvents()
+    {
+        return $this->database->table('events')->select('*')->where('trashed = ?', 1)->fetchAll();
     }
 
 }

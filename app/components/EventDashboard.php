@@ -39,6 +39,20 @@ class EventDashboard extends BaseComponent
         $this->eventManager = $eventManager;
     }
 
+    public function handleRestoreEvent($eventId)
+    {
+        // TODO add confirmation
+        $this->eventManager->restoreEvent($eventId);
+        $this->presenter->redirect('default');
+    }
+
+    public function handleDeleteEvent($eventId)
+    {
+        // TODO add confirmation
+        $this->eventManager->deleteEvent($eventId);
+        $this->presenter->redirect('showTrash');
+    }
+
 
     public function render()
     {
@@ -61,6 +75,14 @@ class EventDashboard extends BaseComponent
 
         $this->template->startPeriod = $billablePeriod[0];
         $this->template->endPeriod = $billablePeriod[1];
+
+        echo $this->template;
+    }
+
+    public function renderTrash()
+    {
+        $this->template->setFile(__DIR__ . '/EventDashboard/trashedEvents.latte');
+        $this->template->events = $this->eventManager->getTrashedEvents();
 
         echo $this->template;
     }

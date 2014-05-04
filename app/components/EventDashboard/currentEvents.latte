@@ -10,10 +10,11 @@
         <ul n:if="$reports" class="list-group">
             <li n:foreach="$reports as $report" class="list-group-item clearfix">
                 {$report->date_of_payment|date:'j.n.Y'} -
-                <a href="{plink editEvent report_id => $report->id}">{$report->ref('event_id')->title}</a> ({$report->paid ? 'paid' : 'not paid'})
+                <a href="{plink editEvent report_id => $report->id}">{$report->title}</a> ({$report->paid ? 'paid' : 'not paid'})
             </li>
         </ul>
     </div>
 </div>
 
 <a href="{plink createEvent}">Create new billing event</a>
+<a href="{plink showTrash}">Trash</a>
