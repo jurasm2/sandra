@@ -39,47 +39,24 @@ class EventDashboard extends BaseComponent
         $this->eventManager = $eventManager;
     }
     
-
-    /**
-     * @param int $startDayOfPeriod
-     * @param DateTime $refDateTime
-     * @return DateTime[]
-     */
-    public function getBillablePeriod($startDayOfPeriod, DateTime $refDateTime) 
-    {
-        if ($startDayOfPeriod > 28) {
-            throw new \Nette\InvalidArgumentException("Maximum value for start day of period is '28'");
-        }
-        
-        $periodFrom = $this->eventManager->getClosestInPast($refDateTime, $startDayOfPeriod);
-        
-        $periodEnd = clone $periodFrom;
-        $periodEnd
-            ->modify('+1 month')
-            ->modify('-1 day');
-        
-        return [$periodFrom, $periodEnd];
-    }       
-        
-    
     
     public function render()
     {
         $dateTime = new DateTime();
-        $firstDayOfBillableMonth = $this->config['first_day_of_billable_month'];
-        $billblePeriod = $this->getBillablePeriod($firstDayOfBillableMonth, $dateTime);
+        $firstDayOfBillingablePeriod = $this->config['first_day_of_billing_period'];
+        $billablePeriod = $this->eventManager->getBillingPeriod($firstDayOfBillingablePeriod, $dateTime);
         
         // get billable period and add missing reports
         $this->eventManager->addMissingReports(
-            $billblePeriod[0],
-            $billblePeriod[1]
+            $billablePeriod[0],
+            $billablePeriod[1]
         );
         
         $this->template->setFile(__DIR__ . '/EventDashboard/currentEvents.latte');
         
         $this->template->reports = $reports = $this->eventManager->getReports(
-            $billblePeriod[0],
-            $billblePeriod[1]
+            $billablePeriod[0],
+            $billablePeriod[1]
         );
         
         echo $this->template;

@@ -6,7 +6,7 @@
 #
 parameters:
     event_dashboard_config:
-        first_day_of_billable_month: 18
+        first_day_of_billing_period: 18
 
 php:
     date.timezone: Europe/Prague

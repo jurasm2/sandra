@@ -15,8 +15,12 @@ class EditEventForm extends BaseForm
      */
     protected $eventManager;
     
-    public function __construct($parent, $name, EventManager $eventManager)
-    {
+    public function __construct(
+        $parent, 
+        $name, 
+        EventManager $eventManager,
+        $firstDayOfBillingPeriod
+    ) {
         parent::__construct($parent, $name);
         $this->eventManager = $eventManager;
         
@@ -34,11 +38,11 @@ class EditEventForm extends BaseForm
         $this->addCheckbox('trashed', 'Trashed');
         $this->addCheckbox('paid', 'Paid');        
         $this->addHidden('report_id', $reportId);
+        $this->addHidden('first_day_of_billing_period', $firstDayOfBillingPeriod);
         
         $this->addSubmit('submit', 'Update event');
         
-        $this->setDefaults($defaultValues);       
-        
+        $this->setDefaults($defaultValues);        
         $this->onSuccess[] = array($this, 'formSubmitted');
     }
 

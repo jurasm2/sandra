@@ -11,28 +11,28 @@ use DateTime;
  */
 class EventManager extends BaseService
 {
-    
+
     /**
      * @var EventModel
      */
     protected $eventModel;
-    
-    public function __construct(EventModel $events) 
+
+    public function __construct(EventModel $events)
     {
         $this->eventModel = $events;
     }
-    
-    public function monthize(DateTime $dateTime, $dayInMonth) 
+
+    public function monthize(DateTime $dateTime, $dayInMonth)
     {
         return new DateTime(
             sprintf(
-                '%s-%s', 
+                '%s-%s',
                 $dateTime->format('Y-m'),
                 $dayInMonth
             )
         );
     }
-    
+
     /**
      * Returns closest datetime in the past relatively to $reference
      * if DATE($reference) == $dayInMonth -> return $reference
@@ -40,15 +40,15 @@ class EventManager extends BaseService
      * @param int $dayInMonth
      * @return DateTime
      */
-    public function getClosestInPast(DateTime $reference, $dayInMonth) 
+    public function getClosestInPast(DateTime $reference, $dayInMonth)
     {
-        $date = $this->monthize($reference, $dayInMonth);        
+        $date = $this->monthize($reference, $dayInMonth);
         if ($date > $reference) {
             $date->modify('-1 month');
-        }        
+        }
         return $date;
     }
-    
+
     /**
      * Returns closest datetime in the past relatively to $reference
      * if DATE($reference) == $dayInMonth -> return $reference
@@ -56,70 +56,67 @@ class EventManager extends BaseService
      * @param type $dayInMonth
      * @return DateTime
      */
-    public function getClosestInFuture(DateTime $reference, $dayInMonth) 
+    public function getClosestInFuture(DateTime $reference, $dayInMonth)
     {
-        $date = $this->monthize($reference, $dayInMonth);        
+        $date = $this->monthize($reference, $dayInMonth);
         if ($date < $reference) {
             $date->modify('+1 month');
-        }        
+        }
         return $date;
     }
-    
-    
+
+
     /**
-     * 
+     *
      * @param DateTime $fromDate
      * @param DateTime $toDate
      * @param int $dayInMonth
      * @return DateTime
      */
-    public function getDateOfPayment(DateTime $fromDate, $dayInMonth) 
+    public function getDateOfPayment(DateTime $fromDate, $dayInMonth)
     {
         return $this->getClosestInFuture($fromDate, $dayInMonth);
     }
-    
-    public function insertEventToReports(DateTime $fromDate, array $event) 
+
+    public function insertEventToReports(DateTime $fromDate, array $event)
     {
         $reportData = [
             'event_id' => $event['id'],
             'date_of_payment' => $this->getClosestInFuture($fromDate, $event['day_in_month']),
         ];
-       
+
         $this->eventModel->createReport($reportData);
     }
-    
-    public function addMissingReports(DateTime $fromDate, DateTime $toDate) 
+
+    public function addMissingReports(DateTime $fromDate, DateTime $toDate)
     {
         $allEvents = $this->eventModel->getAllActiveEvents($fromDate, $toDate);
         $currentReports = $this->eventModel->getReportsInInterval($fromDate, $toDate);
-               
-        dump($currentReports);
-        
-//        if ($allEvents) {
-//            foreach ($allEvents as $event) {
-//                if (!isset($currentReports[$event->id])) {
-//                    // add missing event
-//                    dump('adding missing event because the list of current reports does not contain event id: ' . $event->id);
-//                    dump($currentReports);
-//                    $this->insertEventToReports($fromDate, $event->toArray());
-//                }
-//            }
-//        }
+
+        if ($allEvents) {
+            foreach ($allEvents as $event) {
+                if (!isset($currentReports[$event->id])) {
+                    // add missing event
+                    $this->insertEventToReports($fromDate, $event->toArray());
+                }
+            }
+        }
     }
-        
-    public function createEvent(array $data) 
+
+    public function createEvent(array $data)
     {
         return $this->eventModel->createEvent($data);
     }
-    
-    public function updateEvent(array $data) 
+
+    public function updateEvent(array $data)
     {
         $reportId = $data['report_id'];
+        $firstDayOfBillingPeriod = $data['first_day_of_billing_period'];
         $report = $this->getReport($reportId);
-        
+
         $eventId = $report['event_id'];
-        
-    
+
+
         // update event
         $eventData = [
             'title' => $data['title'],
@@ -128,35 +125,54 @@ class EventManager extends BaseService
             'trashed' => $data['trashed'],
         ];
         $this->eventModel->updateEvent($eventData, $eventId);
-        
+
         // update report
-        
-        
         // date of payment modification
-        
-        
+        $startDay = $this->getBillingPeriod($firstDayOfBillingPeriod, new DateTime)[0];
+
         $reportData = [
             'paid' => $data['paid'],
-            'date_of_payment' => $this->getDateOfPayment(new \DateTime, $data['day_in_month']),  
+            'date_of_payment' => $this->getDateOfPayment($startDay, $data['day_in_month']),
         ];
         $this->eventModel->updateReport($reportData, $reportId);
     }
-    
-    
-    public function getDefaultValuesForEditForm($reportId) 
+
+    /**
+     * @param int $startDayOfPeriod
+     * @param DateTime $refDateTime
+     * @return DateTime[]
+     */
+    public function getBillingPeriod($startDayOfPeriod, DateTime $refDateTime)
+    {
+        if ($startDayOfPeriod > 28) {
+            throw new \Nette\InvalidArgumentException("Maximum value for start day of period is '28'");
+        }
+
+        $periodFrom = $this->getClosestInPast($refDateTime, $startDayOfPeriod);
+
+        $periodEnd = clone $periodFrom;
+        $periodEnd
+            ->modify('+1 month')
+            ->modify('-1 day');
+
+        return [$periodFrom, $periodEnd];
+    }
+
+
+    public function getDefaultValuesForEditForm($reportId)
     {
         return $this->eventModel->getDefaultValuesForEditForm($reportId);
     }
-    
-    public function getReport($reportId) 
+
+    public function getReport($reportId)
     {
         return $this->eventModel->getReport($reportId);
     }
-        
-    
-    public function getReports(DateTime $fromDate, DateTime $toDate) 
+
+
+    public function getReports(DateTime $fromDate, DateTime $toDate)
     {
         return $this->eventModel->getReportsInInterval($fromDate, $toDate);
     }
-    
+
 }
