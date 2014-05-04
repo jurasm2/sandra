@@ -2,5 +2,32 @@
 
 {block content}
 
+<div class="container-fluid">
 
-{control eventDashboard}
+    <div class="col-md-3"></div>
+
+    <div class="col-md-6">
+
+        <div class="row">
+            <div class="page-header">
+                <h1>Sandra <small>billing notifier</small></h1>
+            </div>
+        </div>
+
+        <div class="row">
+            {snippet flashes}
+            <div n:foreach="$flashes as $flash" class="alert alert-{$flash->type} alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {$flash->message}
+            </div>
+            {/snippet}
+        </div>
+
+
+        <div class="row">
+            {control eventDashboard}
+        </div>
+    </div>
+
+    <div class="col-md-3"></div>
+</div>
