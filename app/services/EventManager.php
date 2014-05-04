@@ -112,6 +112,7 @@ class EventManager extends BaseService
     {
         $reportId = $data['report_id'];
         $firstDayOfBillingPeriod = $data['first_day_of_billing_period'];
+        $updateReference = $data['update_reference'];
         $report = $this->getReport($reportId);
 
         $eventId = $report['event_id'];
@@ -128,7 +129,7 @@ class EventManager extends BaseService
 
         // update report
         // date of payment modification
-        $startDay = $this->getBillingPeriod($firstDayOfBillingPeriod, new DateTime)[0];
+        $startDay = $this->getBillingPeriod($firstDayOfBillingPeriod, new DateTime($updateReference))[0];
 
         $reportData = [
             'paid' => $data['paid'],
@@ -176,3 +177,4 @@ class EventManager extends BaseService
     }
 
 }
+

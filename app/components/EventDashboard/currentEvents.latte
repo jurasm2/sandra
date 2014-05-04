@@ -4,17 +4,16 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">Current report</h3>
+        <h3 class="panel-title">Current report {$startPeriod|date:'j.n.Y'} - {$endPeriod|date:'j.n.Y'}</h3>
     </div>
     <div class="panel-body">
         <ul n:if="$reports" class="list-group">
             <li n:foreach="$reports as $report" class="list-group-item clearfix">
-                {$report->date_of_payment|date:'j.n.Y'} - 
+                {$report->date_of_payment|date:'j.n.Y'} -
                 <a href="{plink editEvent report_id => $report->id}">{$report->ref('event_id')->title}</a> ({$report->paid ? 'paid' : 'not paid'})
             </li>
         </ul>
     </div>
 </div>
-        
+
 <a href="{plink createEvent}">Create new event</a>
-        
