@@ -103,7 +103,26 @@ class EventDashboard extends BaseComponent
         $this->template->startPeriod = $billablePeriod[0];
         $this->template->endPeriod = $billablePeriod[1];
 
+        $this->template->progressBarStatus = $this->getProgressBarStatus(
+            $billablePeriod[0],
+            $billablePeriod[1],
+            new DateTime);
+
         echo $this->template;
+    }
+
+    public function getProgressBarStatus(
+        DateTime $startDateTime,
+        DateTime $endDateTime,
+        DateTime $currentDateTime
+    ) {
+
+        $period = $startDateTime->diff($endDateTime);
+        $current = $startDateTime->diff($currentDateTime);
+
+        return round(100 * ($current->days / $period->days));
+
+
     }
 
     public function renderTrash()
