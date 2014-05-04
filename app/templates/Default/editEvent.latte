@@ -1,5 +1,29 @@
 {* Latte template *}
 
 {block content}
-    <h1>Edit billing event</h1>
-    {control editEventForm}
+    <h2>Edit billing event</h2>
+    {form editEventForm}
+        <div class="form-group">
+            {label title /}
+            {input title}
+        </div>
+        <div class="form-group">
+            {label day_in_month /}
+            {input day_in_month}
+        </div>
+        <div class="form-group">
+            {label amount /}
+            {input amount}
+        </div>
+        <div class="checkbox">
+            {label trashed}
+                {input trashed}
+            {/label}
+        </div>
+        <div class="checkbox">
+            {label paid}
+                {input paid}
+            {/label}
+        </div>
+        {input submit}
+    {/form}
