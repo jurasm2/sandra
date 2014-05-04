@@ -7,6 +7,16 @@
 parameters:
     event_dashboard_config:
         first_day_of_billing_period: 18
+        twitter_bootstrap:
+            glyphicons:
+                ok: glyphicon-ok
+                passed: glyphicon-remove
+                pending: glyphicon-time
+            list_group_items:
+                ok: success
+                passed: danger
+                pending: warning
+
 
 php:
     date.timezone: Europe/Prague
@@ -23,7 +33,7 @@ nette:
         expiration: 14 days
 
 
-services: 
+services:
     eventModel: Sandra\Model\EventModel
     eventManager: Sandra\Services\EventManager
     - Sandra\Model\UserManager

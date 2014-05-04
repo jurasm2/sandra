@@ -1,0 +1,9 @@
+{* Latte template *}
+
+{block content}
+
+<div class="progress">
+    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="{$progressBarStatus}" aria-valuemin="0" aria-valuemax="100" style="width: {$progressBarStatus}%">
+        <span class="sr-only">{$progressBarStatus}% Complete (success)</span>
+    </div>
+</div>

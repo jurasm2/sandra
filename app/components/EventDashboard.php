@@ -53,6 +53,21 @@ class EventDashboard extends BaseComponent
         $this->presenter->redirect('showTrash');
     }
 
+    protected function getReportState(array $report)
+    {
+        $reportState = 'ok';
+
+        if (!$report['paid']) {
+            if ($report['date_of_payment'] < new DateTime) {
+                $reportState = 'passed';
+            } else {
+                $reportState = 'pending';
+            }
+        }
+
+        return $reportState;
+    }
+
 
     public function render()
     {
@@ -68,15 +83,46 @@ class EventDashboard extends BaseComponent
 
         $this->template->setFile(__DIR__ . '/EventDashboard/currentEvents.latte');
 
-        $this->template->reports = $reports = $this->eventManager->getReports(
+        $reports = $this->eventManager->getReports(
             $billablePeriod[0],
             $billablePeriod[1]
         );
 
+
+        $templateReports = [];
+        foreach ($reports as $report) {
+            $templateReport = (array) $report;
+            // add icon
+            // paid nad past -> ok
+            $templateReport['state'] = $this->getReportState($templateReport);
+            $templateReports[] = $templateReport;
+        }
+        $this->template->reports = $templateReports;
+        $this->template->tb = $this->config['twitter_bootstrap'];
+
         $this->template->startPeriod = $billablePeriod[0];
         $this->template->endPeriod = $billablePeriod[1];
 
+        $this->template->progressBarStatus = $this->getProgressBarStatus(
+            $billablePeriod[0],
+            $billablePeriod[1],
+            new DateTime);
+
         echo $this->template;
+    }
+
+    public function getProgressBarStatus(
+        DateTime $startDateTime,
+        DateTime $endDateTime,
+        DateTime $currentDateTime
+    ) {
+
+        $period = $startDateTime->diff($endDateTime);
+        $current = $startDateTime->diff($currentDateTime);
+
+        return round(100 * ($current->days / $period->days));
+
+
     }
 
     public function renderTrash()

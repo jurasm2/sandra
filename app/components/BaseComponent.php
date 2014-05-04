@@ -24,6 +24,7 @@ abstract class BaseComponent extends Control
     {
         parent::__construct($parent, $name);
         $this->template = $this->createTemplate();
+        $this->template->registerHelper('timeAgeInWords', 'Sandra\Utils\Helpers::timeAgoInWords');
     }
 
 }
