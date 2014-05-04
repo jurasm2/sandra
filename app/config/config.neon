@@ -1,0 +1,31 @@
+#
+# SECURITY WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+#
+# If you don't protect this directory from direct web access, anybody will be able to see your passwords.
+# http://nette.org/security-warning
+#
+parameters:
+    event_dashboard_config:
+        first_day_of_billable_month: 18
+
+php:
+    date.timezone: Europe/Prague
+    # zlib.output_compression: yes
+
+
+nette:
+    application:
+        errorPresenter: Error
+        mapping:
+            *: Sandra\*Module\Presenters\*Presenter
+
+    session:
+        expiration: 14 days
+
+
+services: 
+    eventModel: Sandra\Model\EventModel
+    eventManager: Sandra\Services\EventManager
+    - Sandra\Model\UserManager
+    - Sandra\RouterFactory
+    router: @Sandra\RouterFactory::createRouter

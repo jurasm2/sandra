@@ -1,0 +1,15 @@
+{
+	"name": "jurasm2/sandra",
+	"description": "Sandra - billing notifier",
+	"homepage": "http://sandra.bubo-project.org",
+	"type": "project",
+	"license": ["BSD-3-Clause", "GPL-2.0", "GPL-3.0"],
+	"require": {
+		"php": ">= 5.4",
+		"nette/nette": "~2.1.0",
+		"dg/adminer-custom": "1.*"
+	},
+	"require-dev": {
+		"nette/tester": "~1.0.0"
+	}
+}
