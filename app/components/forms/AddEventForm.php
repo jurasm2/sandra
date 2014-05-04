@@ -15,14 +15,19 @@ class AddEventForm extends BaseForm
      */
     protected $eventManager;
 
-    public function __construct($parent, $name, EventManager $eventManager)
+    public function __construct($parent, $name, EventManager $eventManager, array $paymentMethods)
     {
         parent::__construct($parent, $name);
         $this->eventManager = $eventManager;
 
-        $this->addText('title', 'Title');
-        $this->addText('day_in_month', 'Day in month');
+        $this->addText('title', 'Title')
+            ->setRequired();
+        $this->addText('day_in_month', 'Day in month')
+            ->setRequired();
         $this->addText('amount', 'Amount');
+
+        $this->addSelect('payment_method', 'Payment method', $paymentMethods)
+            ->setRequired();
 
         $this->addCheckbox('trashed', 'Trashed');
 

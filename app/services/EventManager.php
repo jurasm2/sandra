@@ -124,6 +124,7 @@ class EventManager extends BaseService
             'day_in_month' => $data['day_in_month'],
             'amount' => $data['amount'],
             'trashed' => $data['trashed'],
+            'payment_method' => $data['payment_method'],
         ];
         $this->eventModel->updateEvent($eventData, $eventId);
 

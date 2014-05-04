@@ -56,7 +56,7 @@ class EventModel extends Nette\Object
     public function getReportsInInterval(DateTime $from, DateTime $to)
     {
         return $this->database->query(
-            'SELECT r.*, e.id as eid, e.trashed, e.title '
+            'SELECT r.*, e.id as eid, e.trashed, e.title, e.payment_method '
             . 'FROM reports r '
             . 'JOIN events e '
             . 'ON r.event_id = e.id '

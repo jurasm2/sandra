@@ -6,12 +6,20 @@
 #
 parameters:
     event_dashboard_config:
-        first_day_of_billing_period: 18
+        first_day_of_billing_period: 16
+        payment_methods:
+            '': 'Choose payment method'
+            manual: Manual
+            automated: Automated
         twitter_bootstrap:
             glyphicons:
-                ok: glyphicon-ok
-                passed: glyphicon-remove
-                pending: glyphicon-time
+                states:
+                    ok: glyphicon-ok-sign
+                    passed: glyphicon-exclamation-sign
+                    pending: glyphicon-time
+                payment_methods:
+                    manual: glyphicon-wrench
+                    automated: glyphicon-flash
             list_group_items:
                 ok: success
                 passed: danger

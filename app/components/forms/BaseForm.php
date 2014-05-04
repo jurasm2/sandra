@@ -12,7 +12,7 @@ class BaseForm extends Nette\Application\UI\Form
     {
         parent::__construct($parent, $name);
 
-        $this->getElementPrototype()->class = 'form-inline';
+        //$this->getElementPrototype()->class = 'form-inline';
 
         // ajaxify the form
         // $this->getElementPrototype()->class = 'ajax';
@@ -25,7 +25,7 @@ class BaseForm extends Nette\Application\UI\Form
         $controlPrototype->class = "form-control";
         $controlPrototype->placeholder = $label;
 
-        $text->getLabelPrototype()->class = "sr-only";
+        //$text->getLabelPrototype()->class = "sr-only";
         return $text;
     }
 
@@ -33,6 +33,12 @@ class BaseForm extends Nette\Application\UI\Form
         $submit = parent::addSubmit($name, $caption);
         $submit->getControlPrototype()->class = 'btn btn-default';
         return $submit;
+    }
+
+    public function addSelect($name, $label = NULL, array $items = NULL, $size = NULL) {
+        $select = parent::addSelect($name, $label, $items, $size);
+        $select->getControlPrototype()->class = 'form-control';
+        return $select;
     }
 
 }

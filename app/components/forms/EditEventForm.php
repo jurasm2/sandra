@@ -19,7 +19,8 @@ class EditEventForm extends BaseForm
         $parent,
         $name,
         EventManager $eventManager,
-        $firstDayOfBillingPeriod
+        $firstDayOfBillingPeriod,
+        $paymentMethods
     ) {
         parent::__construct($parent, $name);
         $this->eventManager = $eventManager;
@@ -34,6 +35,9 @@ class EditEventForm extends BaseForm
         $this->addText('title', 'Title');
         $this->addText('day_in_month', 'Day in month');
         $this->addText('amount', 'Amount');
+
+        $this->addSelect('payment_method', 'Payment method', $paymentMethods)
+            ->setRequired();
 
         $this->addCheckbox('trashed', 'Trashed');
         $this->addCheckbox('paid', 'Paid');
@@ -53,6 +57,7 @@ class EditEventForm extends BaseForm
         $formValues = $form->getValues();
         $this->eventManager->updateEvent((array) $formValues);
 
+        $this->presenter->flashMessage('Event has been updated');
         $this->presenter->redirect('default');
     }
 }

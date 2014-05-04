@@ -49,7 +49,12 @@ class DefaultPresenter extends BasePresenter
      */
     protected function createComponentAddEventForm($name)
     {
-        return new AddEventForm($this, $name, $this->eventManager);
+        return new AddEventForm(
+            $this,
+            $name,
+            $this->eventManager,
+            $this->context->parameters['event_dashboard_config']['payment_methods']
+        );
     }
 
     /**
@@ -63,6 +68,7 @@ class DefaultPresenter extends BasePresenter
             $this,
             $name,
             $this->eventManager,
-            $this->context->parameters['event_dashboard_config']['first_day_of_billing_period']);
+            $this->context->parameters['event_dashboard_config']['first_day_of_billing_period'],
+            $this->context->parameters['event_dashboard_config']['payment_methods']);
     }
 }

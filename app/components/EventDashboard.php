@@ -88,7 +88,6 @@ class EventDashboard extends BaseComponent
             $billablePeriod[1]
         );
 
-
         $templateReports = [];
         foreach ($reports as $report) {
             $templateReport = (array) $report;
