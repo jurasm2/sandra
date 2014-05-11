@@ -10,23 +10,20 @@
 <div class="row list-group-item">
     <div class="col-md-1"></div>
     <div class="col-md-1"></div>
-    <div class="col-md-5">Title</div>
-    <div class="col-md-4">Time</div>
-    <div class="col-md-1 pull-right">
-    </div>
+    <div class="col-md-5">Co</div>
+    <div class="col-md-4">Kdy</div>
 </div>
 
 {foreach $reports as $report}
     <div class="row list-group-item list-group-item-{$tb[list_group_items][$report[state]]}">
         <div class="col-md-1"><span n:class="glyphicon, $tb[glyphicons][states][$report[state]]"></span></div>
         <div class="col-md-1"><span n:class="glyphicon, $tb[glyphicons][payment_methods][$report[payment_method]]"></span></div>
-        <div class="col-md-5"><strong>{$report[title]}</strong></div>
-        <div class="col-md-4">{$report[date_of_payment]|date:'j.n.Y'} ({$report[date_of_payment]|timeAgeInWords})</div>
-        <div class="col-md-1 pull-right">
+        <div class="col-md-5"><strong>{$report[title]}</strong>
             <a href="{plink editEvent report_id => $report[id]}" class="btn btn-default btn-xs">
-                <span class="glyphicon glyphicon-pencil"></span> Edit
+                <span class="glyphicon glyphicon-pencil"></span>
             </a>
         </div>
+        <div class="col-md-4">{$report[date_of_payment]|date:'j.n.Y'} ({$report[date_of_payment]|timeAgeInWords})</div>
     </div>
 {/foreach}
 <p>

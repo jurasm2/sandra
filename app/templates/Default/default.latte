@@ -1,5 +1,7 @@
 {* Latte template *}
 
-{block content}
+{block title}Dashboard | {include #parent}{/block}
 
-{control eventDashboard}
+{block content}
+    {control eventDashboard}
+{/block}

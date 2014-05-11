@@ -57,7 +57,7 @@ class EditEventForm extends BaseForm
         $formValues = $form->getValues();
         $this->eventManager->updateEvent((array) $formValues);
 
-        $this->presenter->flashMessage('Event has been updated');
+        $this->presenter->flashMessage('Pravidelná platba byla upravena');
         $this->presenter->redirect('default');
     }
 }
