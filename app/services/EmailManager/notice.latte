@@ -1,0 +1,11 @@
+{* Latte template *}
+{layout @layout.latte}
+
+{block content}
+
+    {foreach $events as $event}
+        {include blocks/article.latte event => $event}
+    {/foreach}
+
+{/block}
+

@@ -1,7 +1,7 @@
 {**
  * My Application layout template.
  *
- * @param string   $basePath web base path
+ * @param string   $baseUri web base path
  * @param string   $robots   tell robots how to index the content of a page (optional)
  * @param array    $flashes  flash messages
  *}
@@ -15,10 +15,10 @@
 
 	<title>{block title|striptags}Sandra{/block}</title>
 
-    <link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/bootstrap.min.css">
-	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/screen.css">
-	<link rel="stylesheet" media="print" href="{$basePath}/css/print.css">
-	<link rel="shortcut icon" href="{$basePath}/favicon.ico">
+    <link rel="stylesheet" media="screen,projection,tv" href="{$baseUri}/css/bootstrap.min.css">
+	<link rel="stylesheet" media="screen,projection,tv" href="{$baseUri}/css/screen.css">
+	<link rel="stylesheet" media="print" href="{$baseUri}/css/print.css">
+	<link rel="shortcut icon" href="{$baseUri}/favicon.ico">
 	{block head}{/block}
 </head>
 
@@ -26,13 +26,13 @@
 	<script> document.documentElement.className+=' js' </script>
 
     <div class="container-fluid">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
             <div class="row">
                 <div class="page-header logo-container">
                     <h1><a n:href="Default:default">Sandra</a> <small>krutopřísná účetní</small></h1>
                     <span class="logo">
-                        <img src="{$basePath}/images/128.png"/>
+                        <img src="{$baseUri}/images/128.png"/>
                     </span>
                 </div>
             </div>
@@ -48,15 +48,14 @@
                 {include content}
             </div>
         </div>
-
-        <div class="col-md-3"></div>
+        <div class="col-md-1"></div>
     </div>
 
 	{block scripts}
-	<script src="{$basePath}/js/jquery.js"></script>
-    <script src="{$basePath}/js/bootstrap.min.js"></script>
-	<script src="{$basePath}/js/netteForms.js"></script>
-	<script src="{$basePath}/js/main.js"></script>
+	<script src="{$baseUri}/js/jquery.js"></script>
+    <script src="{$baseUri}/js/bootstrap.min.js"></script>
+	<script src="{$baseUri}/js/netteForms.js"></script>
+	<script src="{$baseUri}/js/main.js"></script>
 	{/block}
 </body>
 </html>

@@ -63,14 +63,6 @@ class EventModel extends Nette\Object
             . 'WHERE DATE(date_of_payment) >= ? AND DATE(date_of_payment) <= ? AND trashed = 0 '
             . 'ORDER BY date_of_payment ASC',
             $from, $to)->fetchPairs('event_id');
-
-
-//        return $this->database
-//            ->table('reports')
-//            ->select('*')
-//            ->where('DATE(date_of_payment) >= ? AND DATE(date_of_payment) <= ?', [$from, $to])
-//            ->order('date_of_payment', 'asc')
-//            ->fetchPairs('event_id');
     }
 
     public function getReport($reportId)
@@ -86,7 +78,7 @@ class EventModel extends Nette\Object
 
     public function updateReport(array $data, $reportId)
     {
-        $this->database->table('reports')->where('id = ?', $reportId)->update($data);
+        return $this->database->table('reports')->where('id = ?', $reportId)->update($data);
     }
 
 

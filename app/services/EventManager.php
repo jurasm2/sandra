@@ -197,5 +197,20 @@ class EventManager extends BaseService
         $event->delete();
     }
 
+
+    /* cron methods */
+
+    public function getAllCurrentEvents()
+    {
+        $today = new \DateTime('today');
+        $currentReports = $this->eventModel->getReportsInInterval($today, $today);
+        return $currentReports;
+    }
+
+    public function setEventAsPaid($id)
+    {
+        return $this->eventModel->updateReport(['paid' => 1], $id);
+    }
+
 }
 

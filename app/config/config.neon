@@ -6,7 +6,7 @@
 #
 parameters:
     event_dashboard_config:
-        first_day_of_billing_period: 16
+        first_day_of_billing_period: 14
         payment_methods:
             '': 'Choose payment method'
             manual: Manual
@@ -36,14 +36,18 @@ nette:
         errorPresenter: Error
         mapping:
             *: Sandra\*Module\Presenters\*Presenter
+    container:
+        debugger: true
 
     session:
         expiration: 14 days
 
 
+
 services:
     eventModel: Sandra\Model\EventModel
     eventManager: Sandra\Services\EventManager
+    emailManager: Sandra\Services\EmailManager(@nette.mailer)
     - Sandra\Model\UserManager
     - Sandra\RouterFactory
     router: @Sandra\RouterFactory::createRouter
