@@ -17,19 +17,4 @@ class BaseTest extends Tester\TestCase
         $this->container = $container;
     }
 
-
-    function setUp()
-    {
-    }
-
-
-    function testSomething()
-    {
-        Assert::true( true );
-    }
-
 }
-
-
-$test = new BaseTest($container);
-$test->run();

@@ -1,0 +1,18 @@
+parameters:
+    mailer:
+        host: host
+        username: username
+        password: password
+        secure: true
+
+nette:
+    database:
+        dsn: dsn
+        user: user
+        password: password
+        options:
+            lazy: true
+
+
+services:
+    nette.mailer: Nette\Mail\SmtpMailer(%mailer%)
