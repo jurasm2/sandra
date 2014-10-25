@@ -1,6 +1,7 @@
-<img src="https://travis-ci.org/jurasm2/sandra.svg?branch=develop" />
 Sandra - billing notifier
 =========================
+
+[![Build Status - develop](https://travis-ci.org/jurasm2/sandra.svg?branch=develop)](https://travis-ci.org/jurasm2/sandra)
 
 Installing
 ----------
