@@ -1,0 +1,10 @@
+language: php
+php:
+  - 5.4
+
+script:
+  - vendor/bin/tester tests -s
+
+before_script:
+  # Install Nette Tester & Code Checker
+  - composer install --no-interaction --dev --prefer-source
